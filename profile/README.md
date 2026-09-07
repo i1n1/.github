@@ -1,26 +1,33 @@
-# 26x86
+<div align="center">
+  <a href="https://github.com/26x86/26x86"><img src="https://raw.githubusercontent.com/26x86/26x86/main/resources/branding/26x86-logo-256.png" alt="26x86" width="120" /></a>
+  <h1>26x86</h1>
+  <p><strong>macOS 26 support for x86-based Macintosh hardware.</strong></p>
+  <p>OpenCore integration · clean-room boot engineering · evidence-first compatibility tooling</p>
+  <p><a href="https://github.com/26x86/26x86">Explore 26x86</a> · <a href="https://github.com/orgs/26x86/repositories">All repositories</a> · <a href="https://github.com/26x86/26x86/actions">CI</a></p>
+</div>
 
-Better macOS system support for x86-based Macintosh-class hardware — an
-OpenCore-style module family: one core package, focused companion modules,
-explicit contracts, and evidence-gated claims.
+## What we build
 
-## Modules
+26x86 keeps the patcher, boot contracts, emulator research, and compatibility
+packages independently reviewable. Modules publish source inventories, fixed
+tags, and CI checks so a result is traceable to the layer that produced it.
 
-| Repository | Role |
-| --- | --- |
-| [26x86](https://github.com/26x86/26x86) | Core: OpenCore integration, EFI preOS/JIT, native host control plane, integration contracts |
-| [VenFire](https://github.com/26x86/VenFire) | ARM64 VMApple/TCG conformance, storage integrity, and recovery policy tooling |
-| [VenFire-QEMU](https://github.com/26x86/VenFire-QEMU) | Reproducible QEMU VMApple TCG/headless patch series pinned to an upstream QEMU commit |
-| [OpenCorePkg](https://github.com/26x86/OpenCorePkg) | OpenCore bootloader fork used by the core package |
-| [MetallibSupportPkg](https://github.com/26x86/MetallibSupportPkg) | Metal library patching utilities |
-| [PatcherSupportPkg](https://github.com/26x86/PatcherSupportPkg) | Patcher support package |
+| Track | Repositories | Focus |
+| --- | --- | --- |
+| **Patcher** | [26x86](https://github.com/26x86/26x86) | Guided setup, OpenCore integration, EFI preparation, diagnostics |
+| **Nextcore boot stack** | [Core](https://github.com/26x86/Nextcore-Core) · [EFI](https://github.com/26x86/Nextcore-EFI) · [Tool](https://github.com/26x86/Nextcore-Tool) | Public boot configuration, UEFI probes, and reproducible CLI control |
+| **Nextcore runtime** | [APLS](https://github.com/26x86/Nextcore-APLS) · [GPU](https://github.com/26x86/Nextcore-GPU) · [HAL](https://github.com/26x86/Nextcore-HAL) · [ISE](https://github.com/26x86/Nextcore-ISE) | Recovery orchestration, platform translation, graphics, and instruction policy |
+| **Emulation research** | [VenFire](https://github.com/26x86/VenFire) · [VenFire-QEMU](https://github.com/26x86/VenFire-QEMU) | VMApple/TCG contracts, storage integrity, and recovery evidence |
+| **Support packages** | [OpenCorePkg](https://github.com/26x86/OpenCorePkg) · [MetallibSupportPkg](https://github.com/26x86/MetallibSupportPkg) · [PatcherSupportPkg](https://github.com/26x86/PatcherSupportPkg) | Upstream integration and compatibility support |
 
-## Claim discipline
+## Evidence, not optimism
 
-- A synthetic guest PASS or a QEMU capability probe is **not** a macOS boot
-  result.
-- `macos_boot_verified` requires target-matching XNU and userspace evidence
-  from caller-supplied signed inputs; repositories ship no Apple firmware or
-  guest disks.
-- Every module declares its contract in `repository.json` and its CI gates;
-  release tags are minted only per the declared release policy.
+- A static check, emulator probe, or synthetic guest PASS is not a physical-Mac
+  or macOS boot claim.
+- `macos_boot_verified` requires target-matching firmware, XNU, and userspace
+  evidence. Each is recorded as a separate acceptance gate.
+- Public repositories include no Apple firmware, guest disks, extracted blobs,
+  or private reverse-engineering material.
+
+Start with [the 26x86 project](https://github.com/26x86/26x86), where the
+current validation boundary and user-facing setup paths are documented.
