@@ -13,36 +13,41 @@ platform and graphics stack is not yet verified.
 
 ## What runs today
 
-The [2026-09-08 source snapshot](https://github.com/26x86/26x86/tree/dcc90013109eac694ccbf997b1e44a7018480f78)
+The [2026-09-08 source snapshot](https://github.com/26x86/26x86/tree/65d1e85db2dfcd4e1c07656bb0bfc315d36fac83)
 records each result at the layer actually exercised.
 
 | Layer | Observed result | Remaining work |
 | --- | --- | --- |
 | NextCore EFI | GOP/text picker, keyboard selection and child launch in OVMF | Automatic OS volume discovery |
 | Tahoe recovery | NextCore → original booter → XNU and userspace; readable, interactive Recovery menus in local QEMU/KVM | Independent KC-loader entry and complete native HAL |
+| APFS EFI driver | [Original driver extraction, StartImage and controller connection succeeded](https://github.com/26x86/26x86/blob/65d1e85db2dfcd4e1c07656bb0bfc315d36fac83/nextcore/artifacts/apfs-firmware-20260908/original-apfs-result.json) | Filesystem opening and installed-OS boot verification |
 | Golden Gate ARM64E | Public boot-argument codec and immutable KC host staging with full view readback | Physical placement, CPU/PAC/DT integration and original XNU entry |
 | Graphics | Intel host Vulkan submission/readback; guest Metal probes built and a Tahoe Recovery probe executed | Guest probe reported no Metal device; **metal_verified=false** |
 
 Host tests and emulator results do not establish physical-Mac support. Full
 installation, the complete Golden Gate boot path and guest Metal remain open.
-See the pinned [context](https://github.com/26x86/26x86/blob/dcc90013109eac694ccbf997b1e44a7018480f78/docs/NEXTCORE_CURRENT_CONTEXT.md)
-and [validation record](https://github.com/26x86/26x86/blob/dcc90013109eac694ccbf997b1e44a7018480f78/nextcore/VALIDATION.md)
+See the pinned [context](https://github.com/26x86/26x86/blob/65d1e85db2dfcd4e1c07656bb0bfc315d36fac83/docs/NEXTCORE_CURRENT_CONTEXT.md)
+and [validation record](https://github.com/26x86/26x86/blob/65d1e85db2dfcd4e1c07656bb0bfc315d36fac83/nextcore/VALIDATION.md)
 for the exact execution conditions and boundaries.
 The [current development record](https://github.com/26x86/26x86/blob/main/docs/NEXTCORE_CURRENT_CONTEXT.md)
 tracks later work; each released module retains its own immutable source-commit reference.
 
 ## Seven independently versioned modules
 
-The `v0.1.1` snapshots use the source commit above. Tool `v0.1.2` includes a
-[crate-local test-fixture correction](https://github.com/26x86/26x86/commit/045065700cbd037eaaa974faf957ba15cb628370).
+Core/EFI `v0.1.2` and Tool `v0.1.3` use the source commit above. GPU, HAL,
+ISE and APLS retain their [original `v0.1.1` source](https://github.com/26x86/26x86/tree/dcc90013109eac694ccbf997b1e44a7018480f78).
+Tool retains its [crate-local test-fixture correction](https://github.com/26x86/26x86/commit/045065700cbd037eaaa974faf957ba15cb628370).
+The three updated modules passed independent Linux clone gates before and after
+publishing; EFI additionally linked the NXAPFS application. Exact release-head CI
+also passed. The linked module build is not itself an execution test.
 Cross-module dependencies use fixed tags; inventories record the exported public
 files. Package versions remain those of each source snapshot.
 
 | Module | Responsibility | Fixed snapshot |
 | --- | --- | --- |
-| [Core](https://github.com/26x86/Nextcore-Core) | Configuration, public image/DT formats and architecture-specific preparation | [v0.1.1](https://github.com/26x86/Nextcore-Core/tree/26x86-Nextcore-Core-v0.1.1) |
-| [EFI](https://github.com/26x86/Nextcore-EFI) | Firmware picker, platform services and bounded handoff | [v0.1.1](https://github.com/26x86/Nextcore-EFI/tree/26x86-Nextcore-EFI-v0.1.1) |
-| [Tool](https://github.com/26x86/Nextcore-Tool) | CLI preparation and orchestration | [v0.1.2](https://github.com/26x86/Nextcore-Tool/tree/26x86-Nextcore-Tool-v0.1.2) |
+| [Core](https://github.com/26x86/Nextcore-Core) | Configuration, public image/DT formats and architecture-specific preparation | [v0.1.2](https://github.com/26x86/Nextcore-Core/tree/26x86-Nextcore-Core-v0.1.2) · [6547be4](https://github.com/26x86/Nextcore-Core/commit/6547be4bbf6b75cf706b89ade4d4a60d5441d223) |
+| [EFI](https://github.com/26x86/Nextcore-EFI) | Firmware picker, platform services and bounded handoff | [v0.1.2](https://github.com/26x86/Nextcore-EFI/tree/26x86-Nextcore-EFI-v0.1.2) · [64a2d4c](https://github.com/26x86/Nextcore-EFI/commit/64a2d4ce432c2f5ccd300728309556c898317436) |
+| [Tool](https://github.com/26x86/Nextcore-Tool) | CLI preparation and orchestration | [v0.1.3](https://github.com/26x86/Nextcore-Tool/tree/26x86-Nextcore-Tool-v0.1.3) · [36e0fd5](https://github.com/26x86/Nextcore-Tool/commit/36e0fd50047182ee6b2abdca87249d8c1a084e73) |
 | [HAL](https://github.com/26x86/Nextcore-HAL) | Public platform-table metadata | [v0.1.1](https://github.com/26x86/Nextcore-HAL/tree/26x86-Nextcore-HAL-v0.1.1) |
 | [ISE](https://github.com/26x86/Nextcore-ISE) | Instruction and CPU feature policy | [v0.1.1](https://github.com/26x86/Nextcore-ISE/tree/26x86-Nextcore-ISE-v0.1.1) |
 | [GPU](https://github.com/26x86/Nextcore-GPU) | Graphics contracts and optional host Vulkan backend | [v0.1.1](https://github.com/26x86/Nextcore-GPU/tree/26x86-Nextcore-GPU-v0.1.1) |
