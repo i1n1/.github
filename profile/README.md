@@ -1,72 +1,84 @@
 <div align="center">
 
-<img src="assets/nextcore-brand-board.png" alt="NextCore — symbol, wordmark, and interface examples" width="1120">
+<a href="https://26x86.github.io/">
+  <img src="assets/nextcore-hero-banner.png" alt="NextCore — experimental UEFI boot tooling" width="1120">
+</a>
+
+<img src="assets/mark.svg" alt="NextCore mark" width="84">
 
 # NEXTCORE
 
-**Boot · Config · Recovery · Docs**
+**Experimental UEFI tooling for macOS on x86**
 
-macOS compatibility on x86 EFI — UEFI boot, HAL translation, and Metal acceleration
-development for macOS 26 Tahoe and macOS 27 Golden Gate.
+Public USB creator · EFI folder generator · prebuilt picker binary
+
+[Live site](https://26x86.github.io/) · [NextCore repo](https://github.com/26x86/NextCore) · [r/NextCore](https://www.reddit.com/r/NextCore/)
+
+`macos_boot_verified = false`
 
 </div>
 
+<p align="center">
+  <a href="https://github.com/26x86/NextCore"><img src="assets/nextcore-card-usb.png" alt="USB creator" width="32%"></a>
+  <a href="https://github.com/26x86/NextCore"><img src="assets/nextcore-card-picker.png" alt="EFI generator and picker" width="32%"></a>
+  <a href="https://github.com/26x86/NextCore/releases/tag/v1.0.0"><img src="assets/nextcore-card-modules.png" alt="Picker binary layers" width="32%"></a>
+</p>
+
 ---
 
-## Overview
+## Why this org exists
 
-Home of the **26x86** organization: NextCore source modules, integration tooling,
-development docs, and brand resources.
+26x86 builds **NextCore**: a clean-room UEFI boot component and the userland tools around it.
+The [public NextCore repository](https://github.com/26x86/NextCore) is the consumer surface — a
+hashed `BOOTX64.EFI`, `tools/make_efi.py`, and `tools/make-usb.ps1`. Crate source and research
+stay in the private monorepo.
 
-Code and docs track measured implementation status. Install steps, supported
-environments, and release notes live in each repository — not on this profile page.
+Reaching an OpenCore picker is firmware load. It is **not** a macOS boot.
 
-> **Experimental.** A passed static check, emulator probe, or firmware transfer is
-> never presented as a physical-Mac or macOS boot result.
-> `macos_boot_verified` stays false until target-matching XNU and userspace
-> evidence are published.
+<details>
+<summary><strong>Start on a USB stick (Windows)</strong></summary>
 
-## Release 1.0.0
+```powershell
+git clone https://github.com/26x86/NextCore.git
+cd NextCore
+python tools/make_efi.py --profile 15igl7 --out out/15igl7
+# elevated PowerShell
+.\tools\make-usb.ps1 -List
+.\tools\make-usb.ps1 -Profile 15igl7 -DiskNumber <N> -Force
+```
 
-**1.0.0** is the packaging and absorb milestone for the NextCore module family:
-aligned public docs, binary export surface, and independently versioned crates
-under the `26x86` organization. It does **not** claim a verified macOS boot.
+Replace SMBIOS serial / MLB / UUID before you boot. The Recovery picker entry stays disabled
+until a real APFS Recovery volume exists.
 
-| Milestone | Meaning |
-| --- | --- |
-| **1.0.0** | Absorb / packaging release — modules, docs, and binary metadata aligned |
-| **2.0.0** | Reserved until macOS 27 boot is verified with honest UART evidence |
+</details>
 
-Public binaries: [v1.0.0](https://github.com/26x86/Nextcore-Binaries/releases/tag/v1.0.0) (macos_boot_verified: false) ·
-Docs: [26x86.github.io/26x86](https://26x86.github.io/26x86/) ·
-Integration: [26x86/26x86](https://github.com/26x86/26x86)
+<details>
+<summary><strong>Honest limits</strong></summary>
 
-## Modules
+- `macos_boot_verified` remains **false** until target-matching XNU and userspace evidence exist.
+- A `BaseSystem.dmg` copied onto exFAT is a file dump, not Apple Recovery.
+- The `15igl7` profile targets Intel Gemini Lake: no AVX2, no macOS 26 graphics driver.
+- **2.0.0** is reserved for a UART-verified macOS 27 boot. Do not advertise it early.
 
-| Area | Repository | Owns |
+</details>
+
+## Map
+
+| Surface | Repository | Role |
 | --- | --- | --- |
-| **Patcher** | [26x86](https://github.com/26x86/26x86) | Guided workflow, OpenCore integration, EFI and root-patch preparation |
-| **Boot core** | [Nextcore-Core](https://github.com/26x86/Nextcore-Core) | Configuration, public format codecs, and handoff contracts |
-| **UEFI** | [Nextcore-EFI](https://github.com/26x86/Nextcore-EFI) | EFI application and controlled handoff probes |
-| **Runtime** | [Nextcore-APLS](https://github.com/26x86/Nextcore-APLS) · [Nextcore-GPU](https://github.com/26x86/Nextcore-GPU) | Recovery diagnostics and GPU command execution |
-| **Hardware translation** | [Nextcore-HAL](https://github.com/26x86/Nextcore-HAL) · [Nextcore-ISE](https://github.com/26x86/Nextcore-ISE) | Platform-table translation and freestanding ARM64e JIT runtime |
-| **CLI** | [Nextcore-Tool](https://github.com/26x86/Nextcore-Tool) | Reproducible command-line orchestration |
-| **Compatibility packages** | [OpenCorePkg](https://github.com/26x86/OpenCorePkg) · [MetallibSupportPkg](https://github.com/26x86/MetallibSupportPkg) · [PatcherSupportPkg](https://github.com/26x86/PatcherSupportPkg) | Upstream integration and patcher support |
+| **Public consumer** | [NextCore](https://github.com/26x86/NextCore) | Picker binary + USB/EFI generators |
+| Private source | [26x86](https://github.com/26x86/26x86) | Monorepo, research, `_isolated/` |
+| UEFI | [Nextcore-EFI](https://github.com/26x86/Nextcore-EFI) | EFI application and handoff probes |
+| Core / HAL / ISE | [Core](https://github.com/26x86/Nextcore-Core) · [HAL](https://github.com/26x86/Nextcore-HAL) · [ISE](https://github.com/26x86/Nextcore-ISE) | Config, tables, ARM64e runtime |
+| GPU / APLS / Tool | [GPU](https://github.com/26x86/Nextcore-GPU) · [APLS](https://github.com/26x86/Nextcore-APLS) · [Tool](https://github.com/26x86/Nextcore-Tool) | Policy, recovery runner, CLI |
+| Pointer | [Nextcore-Binaries](https://github.com/26x86/Nextcore-Binaries) | Superseded — use NextCore |
 
-Each NextCore module has its own Git history, pinned integration commit,
-file-hash inventory, and CI gate. Module boundaries make layers easier to
-inspect; they do not widen boot claims.
-
-## Identity
-
-Pink symbol with a dark wordmark. The image above is the master brand board:
-primary lockup, scaled usage, and a dark-interface example. Do not crop,
-recolor, or regenerate the board PNG for this profile.
-
----
+Interactive landing (cursor, tilt cards, live grid): **[26x86.github.io](https://26x86.github.io/)**
 
 <div align="center">
 
-**NEXTCORE**
+<img src="assets/nextcore-brand-board.png" alt="NextCore brand board" width="920">
+
+Pink `#F41469` · Ink `#131A24` · Paper `#F6F7F9`
 
 </div>
