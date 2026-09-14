@@ -1,12 +1,9 @@
 <div align="center">
 
-<a href="https://26x86.github.io/">
-  <img src="assets/nextcore-hero-banner.png" alt="NextCore — experimental UEFI boot tooling" width="1120">
-</a>
-
-<img src="assets/mark.svg" alt="NextCore mark" width="84">
-
-# NEXTCORE
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/lockup-white.png">
+  <img src="assets/lockup-ink.png" alt="NextCore" width="720">
+</picture>
 
 **Experimental UEFI tooling for macOS on x86**
 
@@ -19,9 +16,9 @@ Public USB creator · EFI folder generator · prebuilt picker binary
 </div>
 
 <p align="center">
-  <a href="https://github.com/26x86/NextCore"><img src="assets/nextcore-card-usb.png" alt="USB creator" width="32%"></a>
-  <a href="https://github.com/26x86/NextCore"><img src="assets/nextcore-card-picker.png" alt="EFI generator and picker" width="32%"></a>
-  <a href="https://github.com/26x86/NextCore/releases/tag/v1.0.0"><img src="assets/nextcore-card-modules.png" alt="Picker binary layers" width="32%"></a>
+  <a href="https://github.com/26x86/NextCore"><img src="assets/card-mark.png" alt="NextCore symbol" width="32%"></a>
+  <a href="https://github.com/26x86/NextCore"><img src="assets/card-lockup.png" alt="NextCore lockup" width="32%"></a>
+  <a href="https://github.com/26x86/NextCore"><img src="assets/card-nav.png" alt="NextCore Boot navigation" width="32%"></a>
 </p>
 
 ---
@@ -73,12 +70,12 @@ until a real APFS Recovery volume exists.
 | GPU / APLS / Tool | [GPU](https://github.com/26x86/Nextcore-GPU) · [APLS](https://github.com/26x86/Nextcore-APLS) · [Tool](https://github.com/26x86/Nextcore-Tool) | Policy, recovery runner, CLI |
 | Pointer | [Nextcore-Binaries](https://github.com/26x86/Nextcore-Binaries) | Superseded — use NextCore |
 
-Interactive landing (cursor, tilt cards, live grid): **[26x86.github.io](https://26x86.github.io/)**
+Interactive landing: **[26x86.github.io](https://26x86.github.io/)**
 
 <div align="center">
 
-<img src="assets/nextcore-brand-board.png" alt="NextCore brand board" width="920">
+<img src="assets/nextcore-brand-board.png" alt="Official NextCore brand board" width="920">
 
-Pink `#F41469` · Ink `#131A24` · Paper `#F6F7F9`
+Processed from the NextCore brand kit · Pink `#F41469` · Ink `#131A24`
 
 </div>
