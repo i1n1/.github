@@ -37,7 +37,7 @@ under the `26x86` organization. It does **not** claim a verified macOS boot.
 | **1.0.0** | Absorb / packaging release — modules, docs, and binary metadata aligned |
 | **2.0.0** | Reserved until macOS 27 boot is verified with honest UART evidence |
 
-Public binaries (when published): [Nextcore-Binaries](https://github.com/26x86/Nextcore-Binaries) ·
+Public binaries: [v1.0.0](https://github.com/26x86/Nextcore-Binaries/releases/tag/v1.0.0) (macos_boot_verified: false) ·
 Docs: [26x86.github.io/26x86](https://26x86.github.io/26x86/) ·
 Integration: [26x86/26x86](https://github.com/26x86/26x86)
 
