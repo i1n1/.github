@@ -1,57 +1,37 @@
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/lockup-white.png">
-  <img src="assets/lockup-ink.png" alt="NextCore" width="560">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/i1n1-logo-dark.png">
+  <img src="assets/i1n1-logo.png" alt="i1n1" width="440">
 </picture>
+
+**Apple ARM64e Bootstrap for x86-64 Apple Device**
 
 </div>
 
-**NextCore** is an experimental UEFI project for macOS boot paths on x86. It is not a finished operating-system port and not a supported installer.
+i1n1 is an experimental bootstrap project. Its objective is to start from UEFI on an x86-64 Apple machine and execute ARM64/arm64e guest code through an owned software runtime. A second track builds and stages the pinned upstream [q1n1](https://github.com/Acelogic/q1n1) for native AArch64 UEFI.
 
-- Site: [26x86.github.io](https://26x86.github.io/)
-- Public tools: [github.com/26x86/NextCore](https://github.com/26x86/NextCore)
-- Discussion: [r/NextCore](https://www.reddit.com/r/NextCore/)
+The organization publishes **source only**: no releases, prereleases or compiled EFI images. Neither track boots macOS or Windows today, and no physical machine is qualified.
 
-`macos_boot_verified = false`
+## Start here
 
-## Getting Started
-
-```powershell
-git clone https://github.com/26x86/NextCore.git
-cd NextCore
-python tools/make_efi.py --profile 15igl7 --out out/15igl7
-# elevated PowerShell
-.\tools\make-usb.ps1 -List
-.\tools\make-usb.ps1 -Profile 15igl7 -DiskNumber <N> -Force
-```
-
-Replace `SystemSerialNumber`, `MLB`, `SystemUUID`, and `ROM` in `EFI/OC/config.plist` before use. The Recovery picker entry stays disabled until an APFS Recovery volume exists.
-
-## Status
-
-| Item | Value |
+| | |
 | --- | --- |
-| x86 UEFI load | partial |
-| OpenCore chain-load | staged |
-| macOS Recovery volume | absent on exFAT |
-| macos_boot_verified | false |
+| Source | [i1n1/i1n1](https://github.com/i1n1/i1n1) |
+| Build and run | [howto.md](https://github.com/i1n1/i1n1/blob/main/howto.md) |
+| Documentation | [Docs](https://github.com/i1n1/i1n1/blob/main/Docs/README.md) |
+| Scope and evidence | [Compatibility](https://github.com/i1n1/i1n1/blob/main/Docs/Compatibility.md) |
+| Organization and publication policy | [Organization](https://github.com/i1n1/i1n1/blob/main/Docs/Organization.md) |
+| Upstream provenance | [References](https://github.com/i1n1/i1n1/blob/main/Docs/References.md), [ARM64 UEFI and q1n1](https://github.com/i1n1/i1n1/blob/main/Docs/Arm64UEFI.md) |
 
-A `BaseSystem.dmg` copied onto exFAT is a file, not Apple Recovery. The `15igl7` profile records Intel Gemini Lake (no AVX2, no macOS 26 GPU driver). Version 1.0.0 is a packaging release. Version 2.0.0 is reserved until UART evidence shows target-matching XNU and userspace.
+## What exists
 
-## Repositories
+- **Native components.** An ONXT wire codec, a bounded software A64 interpreter with stage-1 MMU, owned RAM and synthetic pointer authentication, and a q1n1 wire codec and monitor. Also timer, GIC, PCI and x86 models and a hosted CPU-buffer broker, all with authored tests.
+- **UEFI codec demo.** Built for AArch64 (default) and x64; console PASS observed in QEMU.
+- **q1n1 connector.** A pin-bound connector that validates, builds and stages upstream q1n1; its preflight was observed at EL2 in QEMU.
 
-| Repository | Role |
-| --- | --- |
-| [NextCore](https://github.com/26x86/NextCore) | Picker binary, EFI generator, USB writer |
-| [26x86](https://github.com/26x86/26x86) | Private monorepo (source, research) |
-| [Nextcore-EFI](https://github.com/26x86/Nextcore-EFI) | UEFI application |
-| [Nextcore-Core](https://github.com/26x86/Nextcore-Core) | Configuration and codecs |
-| [Nextcore-HAL](https://github.com/26x86/Nextcore-HAL) | ACPI, PCI, SMBIOS, DeviceTree |
-| [Nextcore-ISE](https://github.com/26x86/Nextcore-ISE) | ARM64e instruction runtime |
-| [Nextcore-GPU](https://github.com/26x86/Nextcore-GPU) | GPU policy |
-| [Nextcore-APLS](https://github.com/26x86/Nextcore-APLS) | AArch64 recovery runner |
-| [Nextcore-Tool](https://github.com/26x86/Nextcore-Tool) | CLI orchestration |
-| [Nextcore-Binaries](https://github.com/26x86/Nextcore-Binaries) | Superseded pointer; use NextCore |
+Project-authored material is GPL-2.0-only. Third-party projects keep their own licenses and are referenced, not bundled. Predecessor research and historical mirrors are private.
 
-<img src="assets/nextcore-brand-board.png" alt="NextCore brand board" width="920">
+## Taking part
+
+Report reproducible defects and documentation corrections through [issues](https://github.com/i1n1/i1n1/issues). Follow [Security](https://github.com/i1n1/i1n1/blob/main/SECURITY.md) for sensitive findings and [Contributing](https://github.com/i1n1/i1n1/blob/main/CONTRIBUTING.md) before submitting changes. Do not attach proprietary software, credentials or memory captures.
